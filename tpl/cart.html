@@ -1,0 +1,49 @@
+<div direc></div>
+
+<div class="cart1">
+    <a href="#/"><返回</a>
+</div>
+<div class="cart2">
+	<p>您好!</p>
+	<p>尊敬的客户请尽快付款！</p>
+</div>
+
+
+
+<div class="swiper-container" id="slide7">
+  <div class="swiper-wrapper">
+<div class="swiper-slide page" >
+	<div class="page2" ng-repeat="item in cart">
+		<div  class="zhou1"><img ng-src="{{item.img}}"  alt=""></div>
+		<div class="zhou2">
+			<p>{{item.name}}</p>
+			<h5>咸粥</h5>
+			<h5>月售1132份  好评率100%</h5>	
+			<span>￥{{item.price}}</span>
+		<div class="zhou3">
+			 <div ng-click="set(item.goodsId,true)"><img src="image/矢量智能对象.png" alt=""></div>
+			<div class="zhou4" ng-model="item.num">
+            {{item.num}}
+            </div>
+            <div ng-click="set(item.goodsId,false)"><img src="image/矢量智能对象-拷贝.png" alt=""></div>
+		</div>
+		</div>		
+	</div>
+</div>
+</div>
+</div>
+
+
+	<div class="footer" id="end">
+	
+	  <div class="footer1_2">确认支付</div>
+		<div class="footer2">
+		{{cart.length}}
+		</div>
+		<div class="footer3">总价：￥{{allPrice}}
+		</div>
+	</div>
+
+
+
+

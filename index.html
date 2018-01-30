@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/swiper.min.css">
+	<script src="js/resp.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-route.js"></script>
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/swiper.min.js"></script>
+	<script src="js/fly.js"></script>
+</head>
+<body ng-controller="cont" >
+	<div id="wrap" ng-view>
+		
+	</div>
+	
+</body>
+<script>
+	 var app=angular.module("myapp",['ngRoute'],RouteConfig);
+      /*****************路由*****************************0*/
+	function RouteConfig($routeProvider){
+			$routeProvider
+				.when('/',{
+					templateUrl:"tpl/goods.html"
+				})
+				.when('/cart',{
+					templateUrl:"tpl/cart.html"
+				})
+		}
+    app.directive('direc',function(){
+    // 1.为什么返回?
+    return {
+        restrict:'AE', //四种都可以渲染
+        replace : true, 
+        compile:function(){
+        var mySwiper3 = new Swiper ('#slide3', {
+            slidesPerView : 3,
+            onTap:function(){
+                mySwiper4.slideTo(mySwiper3.clickedIndex);
+              }
+        }); 
+	  var mySwiper4 = new Swiper ('#slide4', {
+              // freeMode : true,    
+              onTap:function(){
+                mySwiper3.slideTo(mySwiper4.clickedIndex);
+              }
+          }); 
+	   var mySwiper5 = new Swiper ('#slide5', {   freeMode : true,
+	          direction : 'vertical',
+	    	  slidesPerView : 6, 
+              onTap:function(){
+                mySwiper6.slideTo(mySwiper5.clickedIndex);
+              }
+          }); 
+	    var mySwiper6= new Swiper ('#slide6', {  
+              direction : 'vertical',
+	    	  freeMode : true,
+              onTap:function(){
+                mySwiper5.slideTo(mySwiper6.clickedIndex);
+              }
+          }); 
+        	
+        }
+    };
+});
+
+         
+
+
+
+
+/*****************路由******************************/
+/*****************controller******************************/
+app.controller("cont",function($scope){
+	$scope.data=[
+   {goodsId:"fh2243",name:'皮蛋瘦肉粥配包子套餐',img:"image/图层-2.png","price":'14',num:0},
+   {goodsId:"fsff43",name:'莲子黑桃黑米粥',img:"image/图层-3.png","price":'10',num:0},
+   {goodsId:"fsfw3wh2243",name:'雪梨银耳百合粥',img:"image/图层-4.png","price":'18',num:0},
+   
+   ];
+
+angular.forEach($scope.data,function(item){
+
+	item.num=0;//向数据里面写入一个num的键
+	item.price=-(-(item.price));
+	//负负为正,把价格转成数字类型
+
+})
+$scope.cart=[];
+    $scope.set=function(goodsId,bool){
+	// 商品ID
+	// console.log(bool);
+
+	angular.forEach($scope.data,function(item,index){
+
+		if(goodsId==item.goodsId){
+			if(bool){
+				if(item.num==0){
+					item.num=1;
+					$scope.cart.push(item);		
+				}else{
+					item.num++;
+				}
+			}else{
+				item.num--;
+				item.num=item.num<=0?0:item.num;
+			}
+		}//当前用户点击的数据
+	})
+	
+}
+
+$scope.sunbool=false;
+$scope.$watch("cart",function(){
+$scope.allPrice=0;
+	angular.forEach($scope.cart,function(item,index){
+		$scope.allPrice+=item.num*item.price;
+		 if(item.num<=0){$scope.cart.splice(index,1)};
+		 if($scope.allPrice>=20){
+		 	$scope.sunbool=true;
+		 }else{
+		 	$scope.sunbool=false;
+
+		 }
+		
+	})
+
+},true);
+});
+ var aBtn=document.querySelectorAll("button");
+	
+	// for(var i=0;i<aBtn.length;i++){
+	// 	aBtn[i].onclick=function(){
+	// 		addProduct(event);
+	// 	};
+	// }
+		function setIco(event) {
+
+            // 变量区,当前按钮,当前图片
+		
+				var flyer = $('<img class="u-flyer" src="image/图层-2.png">');
+
+			
+            //鼠标在页面点击开始位置计算.
+			var top = $(window).scrollTop();
+			
+			var dh = event.pageY;
+
+			var newh = dh - top;
+
+
+			// 鼠标结束位置计算	
+			var oDiv = $('#end').offset();
+			var newdh = oDiv.top - top;
+
+			flyer.fly({
+				start: {
+					left: event.pageX,
+					top: newh
+				},
+				end: {
+					left: oDiv.left,
+					top: newdh,
+					width: 0,
+					height: 0
+				}
+			});
+		}
+</script>
+</html>
